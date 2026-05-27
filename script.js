@@ -1,5 +1,7 @@
 const numberButtons = document.querySelectorAll('.num-button');
-const display = document.querySelector('.displayed-value')
+const display = document.querySelector('.displayed-value');
+const operatorButtons = document.querySelectorAll('.op-button');
+const eqButton = document.querySelector('.eq-button');
 
 function add(num1, num2) {
     return num1 + num2;
@@ -35,6 +37,7 @@ function operation(num1, num2, operator) {
 let userNum1 = null;
 let userNum2 = null;
 let userOperation = null;
+let equalSelected = false;
 
 function appendNumber(num) {
     if (!userNum1) {
@@ -56,5 +59,20 @@ numberButtons.forEach((num) => {
     num.addEventListener('click', () => {
         appendNumber(num.textContent);
 
+    })
+})
+
+operatorButtons.forEach((op) => {
+    op.addEventListener('click', (event) => {
+        console.log("Clicked");
+        if (userNum1 && userNum2 && userOperation) {
+            const result = operation(Number(userNum1), Number(userNum2), userOperation);
+            display.textContent = String(result);
+            userNum1 = result;
+            userNum2 = null;
+            console.log(result);
+        }
+
+        userOperation = event.target.textContent;
     })
 })

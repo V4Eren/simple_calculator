@@ -72,15 +72,15 @@ button {
     background-color: hsl(0, 0%, 50%);
 }
 
-.op-button {
+.op-button, .eq-button {
     background-color: hsl(35, 100%, 55%);
     font-size: 1.4rem;
 }
 
-.op-button:hover {
+.op-button:hover, .eq-button:hover {
     background: hsl(35, 100%, 65%);
 }
 
-.op-button:active {
+.op-button:active, .eq-button:active {
     background: hsl(35, 100%, 75%);
 }
