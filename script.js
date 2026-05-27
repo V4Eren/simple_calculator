@@ -32,12 +32,29 @@ function operation(num1, num2, operator) {
     }
 }
 
+let userNum1 = null;
+let userNum2 = null;
+let userOperation = null;
+
 function appendNumber(num) {
-    display.textContent += num;
+    if (!userNum1) {
+        userNum1 = num;
+        display.textContent = userNum1;
+    } else if (!userOperation){
+        userNum1 += num;
+        display.textContent = userNum1;
+    } else if (!userNum2) {
+        userNum2 = num;
+        display.textContent = userNum2;
+    } else {
+        userNum2 += num;
+        display.textContent = userNum2;
+    }
 }
 
-
-
 numberButtons.forEach((num) => {
-    num.addEventListener('click', () => appendNumber(num.textContent))
+    num.addEventListener('click', () => {
+        appendNumber(num.textContent);
+
+    })
 })
