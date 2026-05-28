@@ -83,3 +83,4 @@ eqButton.addEventListener('click', (event) => {
     displayResult();
     userOperation = null;
 })
+
