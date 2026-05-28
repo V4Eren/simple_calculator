@@ -55,6 +55,15 @@ function appendNumber(num) {
     }
 }
 
+function displayResult() {
+    if (userNum1 && userNum2 && userOperation) {
+        const result = operation(Number(userNum1), Number(userNum2), userOperation);
+        display.textContent = String(result);
+        userNum1 = result;
+        userNum2 = null;
+    }
+}
+
 numberButtons.forEach((num) => {
     num.addEventListener('click', () => {
         appendNumber(num.textContent);
@@ -64,15 +73,13 @@ numberButtons.forEach((num) => {
 
 operatorButtons.forEach((op) => {
     op.addEventListener('click', (event) => {
-        console.log("Clicked");
-        if (userNum1 && userNum2 && userOperation) {
-            const result = operation(Number(userNum1), Number(userNum2), userOperation);
-            display.textContent = String(result);
-            userNum1 = result;
-            userNum2 = null;
-            console.log(result);
-        }
-
+        displayResult();
         userOperation = event.target.textContent;
     })
+})
+
+eqButton.addEventListener('click', (event) => {
+    eqPressed = true;
+    displayResult();
+    userOperation = null;
 })
