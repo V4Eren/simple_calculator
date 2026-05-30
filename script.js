@@ -71,7 +71,8 @@ function displayResult() {
 
 numberButtons.forEach((num) => {
     num.addEventListener('click', () => {
-        if(display.textContent.length >= 9) return;
+        const displayLength = display.textContent.replace('.', '').length;
+        if(displayLength >= 9) return;
 
         if (equalSelected) {
             userNum1 = null;
@@ -81,12 +82,27 @@ numberButtons.forEach((num) => {
             display.textContent = '';
         }
 
+        if (num.id == "comma") {
+            if (userOperation === null) {
+                userNum1 = userNum1 === null ? '0.' : 
+                                        (!userNum1.includes('.') ? `${userNum1}.` : userNum1);
+                display.textContent = userNum1;
+            } else {
+                userNum2 = userNum2 === null ? '0.' :
+                                        (!userNum2.includes('.') ? `${userNum2}.` : userNum2);
+                display.textContent = userNum2;
+            }
+            return;
+        }
+
         appendNumber(num.textContent);
     })
 })
 
 operatorButtons.forEach((op) => {
     op.addEventListener('click', (event) => {
+        if (userNum1 == null) return;
+
         if(equalSelected) {
             equalSelected = false;
         }
@@ -112,6 +128,8 @@ operatorButtons.forEach((op) => {
             }
             return;
         }
+
+        
 
         displayResult();
         userOperation = event.target.textContent;
