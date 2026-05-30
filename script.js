@@ -16,6 +16,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
+    if (num2 == 0) return "error";
     return num1 / num2;
 }
 
@@ -40,13 +41,13 @@ let userOperation = null;
 let equalSelected = false;
 
 function appendNumber(num) {
-    if (!userNum1) {
+    if (userNum1 === null) {
         userNum1 = num;
         display.textContent = userNum1;
-    } else if (!userOperation){
+    } else if (userOperation === null){
         userNum1 += num;
         display.textContent = userNum1;
-    } else if (!userNum2) {
+    } else if (userNum2 === null) {
         userNum2 = num;
         display.textContent = userNum2;
     } else {
@@ -56,30 +57,69 @@ function appendNumber(num) {
 }
 
 function displayResult() {
-    if (userNum1 && userNum2 && userOperation) {
+    if (userNum1 !== null && userNum2 !== null && userOperation !== null) {
         const result = operation(Number(userNum1), Number(userNum2), userOperation);
-        display.textContent = String(result);
-        userNum1 = result;
+        if(result === "error") {
+            display.textContent = "NaN";
+            return;
+        }
+        display.textContent = String(result).slice(0,9);
+        userNum1 = String(result);
         userNum2 = null;
     }
 }
 
 numberButtons.forEach((num) => {
     num.addEventListener('click', () => {
-        appendNumber(num.textContent);
+        if(display.textContent.length >= 9) return;
 
+        if (equalSelected) {
+            userNum1 = null;
+            userNum2 = null;
+            userOperation = null;
+            equalSelected = false;
+            display.textContent = '';
+        }
+
+        appendNumber(num.textContent);
     })
 })
 
 operatorButtons.forEach((op) => {
     op.addEventListener('click', (event) => {
+        if(equalSelected) {
+            equalSelected = false;
+        }
+
+        if(op.id === "clear") {
+            userNum1 = null;
+            userNum2 = null;
+            userOperation = null;
+            display.textContent = "0";
+            return;
+        }
+
+        if(op.id == "del") {
+            if (userNum2 !== null) {
+                userNum2 = userNum2.slice(0,-1);
+                display.textContent = userNum2 === "" ? "0" : userNum2;
+            } else if (userOperation !== null) {
+                userOperation = null;
+                display.textContent = userNum1;
+            } else if (userNum1 !== null) {
+                userNum1 = userNum1.slice(0,-1);
+                display.textContent = userNum1 === "" ? "0" : userNum1;
+            }
+            return;
+        }
+
         displayResult();
         userOperation = event.target.textContent;
     })
 })
 
 eqButton.addEventListener('click', (event) => {
-    eqPressed = true;
+    equalSelected = true;
     displayResult();
     userOperation = null;
 })
